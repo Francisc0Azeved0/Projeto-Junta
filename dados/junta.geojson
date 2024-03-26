@@ -1,0 +1,10 @@
+{
+"type": "FeatureCollection",
+"name": "junta",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "id": 1, "Nome": "Junta de Freguesia - Sede7" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -7.747150827686268, 41.297396282284538 ] ] } },
+{ "type": "Feature", "properties": { "id": 2, "Nome": "Junta de Freguesia - Polo Alem Rio" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -7.731047623363015, 41.29560558911902 ] ] } },
+{ "type": "Feature", "properties": { "id": 3, "Nome": "Junta de Freguesia - Espaço Cidadão" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -7.740303743199101, 41.308747739643962 ] ] } }
+]
+}

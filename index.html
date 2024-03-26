@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>JUNTA DE FREGUESIA VILA REAL</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="shortcut icon" href="images/favicon_io/logo.ico" type="image/x-icon">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/dados/Escolas.geojson"></script>
+    <script src="/dados/limiteVilaReal.geojson"></script>
+    <script src="/dados/ParquesInfantis.geojson"></script>
+    <script src="/dados/junta.geojson"></script>
+    <script src="/dados/camposDesportivos.geojson"></script>
+</head>
+
+<body>
+    <div id="map"></div>
+    <div id="controls1" class="label2">
+        <button id="satellite-btn">Satélite</button>
+        <button id="osm-btn">Mapa</button>
+    </div>
+    <div id="controls">
+        <table>
+            <tr>
+                <td>
+                    <input type="checkbox" id="toggle-limit" checked>
+                </td>
+                <td>
+                    <label for="toggle-limit">Limite da freguesia</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="checkbox" id="toggle-escolas">
+                </td>
+                <td>
+                    <label for="toggle-escolas">Escolas</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="checkbox" id="toggle-parques">
+                </td>
+                <td>
+                    <label for="toggle-parques">Parques infantis</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="checkbox" id="toggle-campos">
+                </td>
+                <td>
+                    <label for="toggle-campos">Campos Desportivos</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="checkbox" id="toggle-junta" checked>
+                </td>
+                <td>
+                    <label for="toggle-junta">Locais de Atendimento</label>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <button id="home-btn"></button>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="js/leaflet/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([41.2995, -7.7425], 14);
+        var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+        var osmAttrib = 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors';
+        var osm = new L.TileLayer(osmUrl, { attribution: osmAttrib });
+        osm.addTo(map);
+
+        //------------------------------------------------------------------------------------------------------------------------------------
+        // Criação de dois ícones personalizados um para as escolas , outro para os parques
+        var escolaIcon = L.icon({
+            iconUrl: 'images/icon_escola.png',
+            iconSize: [40, 40],
+            iconAnchor: [12, 41],
+            popupAnchor: [0, -41]
+        });
+
+        var parqueIcon = L.icon({
+            iconUrl: 'images/icon_parque.png',
+            iconSize: [40, 40],
+            iconAnchor: [12, 41],
+            popupAnchor: [0, -41]
+        });
+        var camposDesportivosIcon = L.icon({
+            iconUrl: 'images/icon_campos_desportivos.png',
+            iconSize: [40, 40],
+            iconAnchor: [12, 41],
+            popupAnchor: [0, -41]
+        });
+        var juntaIcon = L.icon({
+            iconUrl: 'images/icon_junta.png',
+            iconSize: [40, 40],
+            iconAnchor: [12, 41],
+            popupAnchor: [0, -41]
+        });
+
+        //------------------------------------------------------------------------------------------------------------------------------------
+        // imprime os icones e aciona a propriedade de ao clicarmos no icone mostrar as informações desejadas
+        var escolas = L.geoJSON(null, {
+            pointToLayer: function (feature, latlng) {
+                return L.marker(latlng, { icon: escolaIcon });
+            },
+            onEachFeature: function (feature, layer) {
+                layer.bindPopup("<strong>Nome: </strong>" + feature.properties.nome);
+            }
+        });
+
+        // carrega o arquivo GeoJSON escolas adiciona a camada ao mapa
+        $.getJSON('dados/Escolas.geojson', function (data) {
+            escolas.addData(data);
+        });
+        escolas.addTo(map);
+
+        //------------------------------------------------------------------------------------------------------------------------------------
+        var parquesInfantis = L.geoJSON(null, {
+            pointToLayer: function (feature, latlng) {
+                return L.marker(latlng, { icon: parqueIcon });
+            },
+            onEachFeature: function (feature, layer) {
+                layer.bindPopup("<strong>Nome: </strong>" + feature.properties.Nome);
+            }
+        });
+        parquesInfantis.addTo(map);
+        $.getJSON('dados/ParquesInfantis.geojson', function (data) {
+            parquesInfantis.addData(data);
+        });
+
+        //------------------------------------------------------------------------------------------------------------------------------------
+        var limiteVilaReal = L.geoJSON(null, {
+            style: function (feature) {
+                return { color: "#0000ff", weight: 2 };
+            }
+        });
+        limiteVilaReal.addTo(map);
+        $.getJSON('dados/limiteVilaReal.geojson', function (data) {
+            limiteVilaReal.addData(data);
+
+        });
+
+
+        //------------------------------------------------------------------------------------------------------------------------------------
+        var camposDesportivos = L.geoJSON(null, {
+            pointToLayer: function (feature, latlng) {
+                return L.marker(latlng, { icon: camposDesportivosIcon });
+            },
+            onEachFeature: function (feature, layer) {
+                layer.bindPopup("<strong>Nome: </strong>" + feature.properties.Nome);
+            }
+        });
+        $.getJSON('dados/camposDesportivos.geojson', function (data) {
+            camposDesportivos.addData(data);
+        });
+        camposDesportivos.addTo(map);
+        //------------------------------------------------------------------------------------------------------------------------------------
+        var junta = L.geoJSON(null, {
+            pointToLayer: function (feature, latlng) {
+                return L.marker(latlng, { icon: juntaIcon });
+            },
+            onEachFeature: function (feature, layer) {
+                layer.bindPopup("<strong>Nome: </strong>" + feature.properties.Nome);
+            }
+        });
+        $.getJSON('dados/junta.geojson', function (data) {
+            junta.addData(data);
+        });
+        junta.addTo(map);
+        //------------------------------------------------------------------------------------------------------------------------------------
+
+        // adiciona controlo de camadas ao mapa
+        var overlays = {
+            "Limite da freguesia": limiteVilaReal,
+            "Escolas": escolas,
+            "Parques infantis": parquesInfantis,
+            "Campos Desportivos": camposDesportivos,
+            "Junta": junta
+        };
+        L.control.layers(null, overlays).addTo(map);
+
+        // Função para definir a visibilidade das camadas de acordo com a seleção da checkbox
+        function atualizarVisibilidadeCamadas() {
+            if ($('#toggle-limit').is(':checked')) {
+                limiteVilaReal.addTo(map);
+            } else {
+                limiteVilaReal.removeFrom(map);
+            }
+
+            if ($('#toggle-escolas').is(':checked')) {
+                escolas.addTo(map);
+            } else {
+                escolas.removeFrom(map);
+            }
+
+            if ($('#toggle-parques').is(':checked')) {
+                parquesInfantis.addTo(map);
+            } else {
+                parquesInfantis.removeFrom(map);
+            }
+
+            if ($('#toggle-campos').is(':checked')) {
+                camposDesportivos.addTo(map);
+            } else {
+                camposDesportivos.removeFrom(map);
+            }
+
+            if ($('#toggle-junta').is(':checked')) {
+                junta.addTo(map);
+            } else {
+                junta.removeFrom(map);
+            }
+        }
+
+        // Atualiza a visibilidade das camadas quando as checkboxes são alteradas
+        $('#toggle-limit').on('change', atualizarVisibilidadeCamadas);
+        $('#toggle-escolas').on('change', atualizarVisibilidadeCamadas);
+        $('#toggle-parques').on('change', atualizarVisibilidadeCamadas);
+        $('#toggle-campos').on('change', atualizarVisibilidadeCamadas);
+        $('#toggle-junta').on('change', atualizarVisibilidadeCamadas);
+
+        // Define as camadas como invisíveis no início
+        escolas.removeFrom(map);
+        parquesInfantis.removeFrom(map);
+        camposDesportivos.removeFrom(map);
+        junta.addTo(map);
+        limiteVilaReal.addTo(map);
+
+        var satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            maxZoom: 18,
+            attribution: 'Esri, DigitalGlobe, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community'
+        });
+
+        $('#satellite-btn').click(function () {
+            map.removeLayer(osm);
+            map.addLayer(satelliteLayer);
+        });
+        $('#osm-btn').click(function () {
+            map.removeLayer(satelliteLayer);
+            map.addLayer(osm);
+        });
+        $('#home-btn').click(function () {
+            map.setView([41.2995, -7.7425], 14);
+
+        });
+       
+        L.Control.Coordinates = L.Control.extend({
+            options: {
+                position: 'bottomleft',
+                // Aqui está o formato padrão, que exibe as coordenadas no formato [latitude, longitude]
+                coordinateFormat: function (latLng) {
+                    return '[' + latLng.lat.toFixed(4) + ', ' + latLng.lng.toFixed(4) + ']';
+                },
+                coordinateText: 'Coordenadas:',
+            },
+            onAdd: function (map) {
+                this._container = L.DomUtil.create('div', 'leaflet-control-coordinates');
+                L.DomEvent.disableClickPropagation(this._container);
+                map.on('mousemove', this._update, this);
+                this._container.innerHTML = this.options.coordinateText;
+                return this._container;
+            },
+            onRemove: function (map) {
+                map.off('mousemove', this._update, this);
+            },
+
+            _update: function (e) {
+                this._container.innerHTML = this.options.coordinateText + ' ' + this.options.coordinateFormat(e.latlng);
+            }
+        });
+        L.control.coordinates = function (options) {
+            return new L.Control.Coordinates(options);
+        };
+        L.control.coordinates({ position: 'bottomleft' }).addTo(map);
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,11 @@
+{
+"type": "FeatureCollection",
+"name": "escolas",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "id": 1, "nome": "Escola das Árvores", "anoC": null }, "geometry": { "type": "Point", "coordinates": [ -7.752185575245618, 41.297930282409958 ] } },
+{ "type": "Feature", "properties": { "id": 2, "nome": "Escola da Araucária", "anoC": null }, "geometry": { "type": "Point", "coordinates": [ -7.73211450579045, 41.293671096531781 ] } },
+{ "type": "Feature", "properties": { "id": 3, "nome": "Escola n2 Bairro", "anoC": null }, "geometry": { "type": "Point", "coordinates": [ -7.739659452398951, 41.309367472173321 ] } },
+{ "type": "Feature", "properties": { "id": 4, "nome": "Escola Eb n6 Flores", "anoC": null }, "geometry": { "type": "Point", "coordinates": [ -7.731290846727445, 41.314304642385231 ] } }
+]
+}

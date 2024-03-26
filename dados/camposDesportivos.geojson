@@ -1,0 +1,12 @@
+{
+"type": "FeatureCollection",
+"name": "camposDesportivos",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "id": 1, "Nome": "Campo Desportivo dos Quinchosos" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -7.748338484744035, 41.298793082256651 ] ] } },
+{ "type": "Feature", "properties": { "id": 2, "Nome": "Campo Desportivo OsVicentinos" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -7.741189583259909, 41.308056411378388 ] ] } },
+{ "type": "Feature", "properties": { "id": 3, "Nome": "Campo Desportivo da Almodena" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -7.756269910169548, 41.29623124126514 ] ] } },
+{ "type": "Feature", "properties": { "id": 4, "Nome": "Campo Desportivo de Torreslar" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -7.730530803608339, 41.296784656312056 ] ] } },
+{ "type": "Feature", "properties": { "id": 5, "Nome": "Campo Desportivo de Montezelos" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -7.74456983796272, 41.311446288438361 ] ] } }
+]
+}
